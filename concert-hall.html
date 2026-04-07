@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интерактивная схема концертного зала - Interactive Concert Hall Seating Chart">
+    <meta name="theme-color" content="#ffffff">
+    <title>Концертный зал | Concert Hall</title>
+    <link rel="stylesheet" href="./styles/concert-hall.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+    <link rel="stylesheet" href="./styles/accessibility.css">
+</head>
+<body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Перейти к основному контенту / Skip to main content</a>
+
+    <!-- Header -->
+    <header class="app-header" role="banner">
+        <div class="header-container">
+            <h1 class="hall-title" data-i18n="title">Концертный зал</h1>
+            <p class="hall-subtitle" data-i18n="subtitle">Интерактивная схема рассадки</p>
+            
+            <!-- Language Switcher -->
+            <div class="language-switcher" role="toolbar" aria-label="Language selection">
+                <button class="lang-btn lang-active" data-lang="ru" aria-label="Русский язык">
+                    🇷🇺 РУ
+                </button>
+                <button class="lang-btn" data-lang="kk" aria-label="Қазақша тіл">
+                    🇰🇿 KK
+                </button>
+                <button class="lang-btn" data-lang="en" aria-label="English language">
+                    🇬🇧 EN
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="app-main">
+        <!-- Controls Panel -->
+        <section class="controls-panel" role="region" aria-label="Controls">
+            <div class="control-group">
+                <!-- Zoom Controls -->
+                <div class="control-item">
+                    <label for="zoom-level" class="control-label" data-i18n="zoom">
+                        Масштаб:
+                    </label>
+                    <div class="zoom-controls">
+                        <button id="zoom-out" class="control-btn" aria-label="Zoom out" title="Ctrl+Minus">−</button>
+                        <span id="zoom-level" class="zoom-display" role="status" aria-live="polite">100%</span>
+                        <button id="zoom-in" class="control-btn" aria-label="Zoom in" title="Ctrl+Plus">+</button>
+                        <button id="zoom-reset" class="control-btn" aria-label="Reset zoom" title="Ctrl+0">↺</button>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="control-item">
+                    <label for="section-filter" class="control-label" data-i18n="filter_by_section">
+                        Фильтр по секции:
+                    </label>
+                    <select id="section-filter" class="section-select" aria-label="Filter by section">
+                        <option value="">Все / All / Барлығы</option>
+                        <option value="parterre" data-i18n="parterre">Партер</option>
+                        <option value="beletage" data-i18n="beletage">Бельэтаж</option>
+                        <option value="balkon" data-i18n="balkon">Балкон</option>
+                        <option value="galery" data-i18n="galery">Галерея</option>
+                    </select>
+                </div>
+
+                <!-- Display Mode -->
+                <div class="control-item">
+                    <label class="control-label">Режим:</label>
+                    <div class="display-mode-group">
+                        <button class="display-mode active" data-mode="normal" aria-label="Normal view" title="Normal mode">
+                            👁️ <span data-i18n="normal_view">Обычный</span>
+                        </button>
+                        <button class="display-mode" data-mode="contrast" aria-label="High contrast" title="High contrast mode">
+                            ◐ <span data-i18n="high_contrast">Контраст</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schema Container -->
+        <section class="schema-section" role="region" aria-label="Seating chart">
+            <div id="schema-loader" class="schema-loader" role="status" aria-live="polite">
+                <div class="spinner"></div>
+                <p data-i18n="loading">Схема жүктеліп жатыр...</p>
+            </div>
+
+            <div id="error-message" class="error-message" role="alert" style="display: none;">
+                <p data-i18n="data_unavailable">Деректер уақытша қолжетімсіз</p>
+                <button id="retry-btn" class="action-btn" data-i18n="retry">Қайтау</button>
+            </div>
+
+            <div id="svg-container" class="schema-wrapper" role="img" aria-label="Concert hall seating chart">
+                <svg id="concert-hall-svg" 
+                     viewBox="0 0 1400 1600" 
+                     xmlns="http://www.w3.org/2000/svg" 
+                     preserveAspectRatio="xMidYMid meet" 
+                     class="concert-hall-svg"
+                     data-fallback="./img/poly_concert_hall_schema.png"
+                     role="presentation"
+                     aria-label="Concert hall layout">
+                    <!-- SVG content will be loaded here -->
+                </svg>
+            </div>
+        </section>
+
+        <!-- Info Panel -->
+        <section class="info-panel" role="region" aria-label="Information panel">
+            <h2 class="panel-title" data-i18n="section_info">Информация о секции</h2>
+            <p class="hint-text" data-i18n="select_section">Выберите секцию на схеме</p>
+            <div id="section-details" class="section-details">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Dialog -->
+    <div id="section-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-section-name">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close" aria-label="Close modal" title="Close (Escape)">✕</button>
+            
+            <div class="modal-header">
+                <div class="modal-color" id="modal-color"></div>
+                <h2 id="modal-section-name" class="modal-title">Секция</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-info">
+                    <p>
+                        <span class="info-label" data-i18n="section_name">Название:</span>
+                        <span id="modal-section-label" class="info-value">—</span>
+                    </p>
+                    <p>
+                        <span class="info-label" data-i18n="total_seats">Всего мест:</span>
+                        <span id="modal-section-seats" class="info-value">—</span>
+                    </p>
+                    <p>
+                        <span class="info-label" data-i18n="available">Доступно:</span>
+                        <span id="modal-available" class="info-value">—</span>
+                    </p>
+                    <p>
+                        <span class="info-label" data-i18n="price">Ценовой диапазон:</span>
+                        <span id="modal-price" class="info-value">—</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="select-section-btn" class="action-btn primary" data-i18n="select_seats">
+                    Выбрать места
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer" role="contentinfo">
+        <p>© 2026 QazaqConcert | <a href="#privacy">Политика конфиденциальности</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./js/i18n.js"></script>
+    <script src="./js/concert-hall.js"></script>
+    <script src="./js/zoom.js"></script>
+    <script src="./js/interactive.js"></script>
+    <script src="./js/accessibility.js"></script>
+</body>
+</html>

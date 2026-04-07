@@ -1,0 +1,115 @@
+<svg viewBox="0 0 1400 1600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" class="concert-hall-svg" role="img" aria-label="Concert Hall Seating Chart">
+  <defs>
+    <style>
+      .section-container { cursor: pointer; transition: all 0.3s ease; }
+      .section-container:hover { filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25)); opacity: 0.95; }
+      .section-fill { transition: fill 0.3s ease, stroke 0.3s ease; }
+      .section-fill:hover { filter: brightness(0.95); }
+      .seat-group circle { cursor: pointer; transition: all 0.2s ease; }
+      .seat-group circle:hover { r: 5.5; filter: drop-shadow(0 0 4px rgba(0,0,0,0.4)); }
+      .label-main { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 600; fill: white; text-anchor: middle; pointer-events: none; }
+      .label-secondary { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; fill: white; text-anchor: middle; pointer-events: none; opacity: 0.9; }
+      .row-number { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 10px; fill: #333; text-anchor: middle; pointer-events: none; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 28px; font-weight: bold; fill: #1a1a1a; text-anchor: middle; }
+      .stage-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 18px; font-weight: 700; fill: white; text-anchor: middle; letter-spacing: 2px; }
+      .legend-box { fill: white; stroke: #ddd; stroke-width: 2; }
+      .legend-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #1a1a1a; }
+      .legend-item { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; fill: #333; }
+      .info-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; fill: #555; }
+      .highlight-section { stroke: #FFD700; stroke-width: 3; filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)); }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1600" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="700" y="50" class="title-text">КОНЦЕРТНЫЙ ЗАЛ</text>
+
+  <!-- LEGEND (Top Left) -->
+  <g id="legend">
+    <rect x="30" y="80" width="220" height="240" class="legend-box" rx="8"/>
+    
+    <text x="50" y="110" class="legend-title">ЛЕГЕНДА:</text>
+    
+    <!-- Parterre -->
+    <rect x="50" y="130" width="24" height="24" fill="#27AE60" stroke="#1E8449" stroke-width="1.5" rx="2"/>
+    <text x="85" y="150" class="legend-item">Партер</text>
+    <text x="85" y="168" class="legend-item" font-size="11" fill="#999">420 мест</text>
+    
+    <!-- Beletage -->
+    <rect x="50" y="190" width="24" height="24" fill="#E74C3C" stroke="#C0392B" stroke-width="1.5" rx="2"/>
+    <text x="85" y="210" class="legend-item">Бельэтаж</text>
+    <text x="85" y="228" class="legend-item" font-size="11" fill="#999">280 мест</text>
+    
+    <!-- Balkon -->
+    <rect x="50" y="250" width="24" height="24" fill="#3498DB" stroke="#2980B9" stroke-width="1.5" rx="2"/>
+    <text x="85" y="270" class="legend-item">Балкон</text>
+    <text x="85" y="288" class="legend-item" font-size="11" fill="#999">220 мест</text>
+    
+    <!-- Galery -->
+    <rect x="50" y="310" width="24" height="24" fill="#1ABC9C" stroke="#16A085" stroke-width="1.5" rx="2"/>
+    <text x="85" y="330" class="legend-item">Галерея</text>
+    <text x="85" y="348" class="legend-item" font-size="11" fill="#999">180 мест</text>
+  </g>
+
+  <!-- STAGE (Center) -->
+  <g id="stage-group">
+    <defs>
+      <linearGradient id="stageGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#1a252f;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    
+    <ellipse cx="700" cy="380" rx="240" ry="90" fill="url(#stageGradient)" stroke="#000" stroke-width="3"/>
+    <ellipse cx="700" cy="380" rx="240" ry="90" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6" stroke-dasharray="8,4"/>
+    
+    <circle cx="500" cy="320" r="6" fill="#FFD700" opacity="0.7"/>
+    <circle cx="700" cy="300" r="6" fill="#FFD700" opacity="0.7"/>
+    <circle cx="900" cy="320" r="6" fill="#FFD700" opacity="0.7"/>
+    
+    <text x="700" y="395" class="stage-text">СЦЕНА / STAGE</text>
+  </g>
+
+  <!-- PARTERRE (Green) -->
+  <g id="parterre-section" class="section-container" data-section="parterre" data-section-name="Партер">
+    <path d="M 600 480 L 800 480 L 840 950 L 560 950 Z" fill="#27AE60" stroke="#1E8449" stroke-width="2.5" opacity="0.85"/>
+    <text x="700" y="750" class="label-main" font-size="20">ПАРТЕР</text>
+    <text x="700" y="775" class="label-secondary">420 мест</text>
+  </g>
+
+  <!-- BELETAGE (Red) -->
+  <g id="beletage-section" class="section-container" data-section="beletage" data-section-name="Бельэтаж">
+    <path d="M 560 950 L 840 950 L 890 1050 L 510 1050 Z" fill="#E74C3C" stroke="#C0392B" stroke-width="2.5" opacity="0.85"/>
+    <text x="700" y="1020" class="label-main" font-size="18">БЕЛЬЭТАЖ</text>
+    <text x="700" y="1040" class="label-secondary">280 мест</text>
+  </g>
+
+  <!-- BALKON (Blue) -->
+  <g id="balkon-section" class="section-container" data-section="balkon" data-section-name="Балкон">
+    <path d="M 350 730 L 280 850 L 280 1050 L 350 950 Z" fill="#3498DB" stroke="#2980B9" stroke-width="2.5" opacity="0.85"/>
+    <path d="M 890 1050 L 1120 1050 L 1150 1120 L 860 1120 Z" fill="#3498DB" stroke="#2980B9" stroke-width="2.5" opacity="0.85"/>
+    <text x="250" y="900" class="label-main" font-size="16">БАЛКОН</text>
+    <text x="1150" y="900" class="label-main" font-size="16">БАЛКОН</text>
+  </g>
+
+  <!-- GALERY (Cyan) -->
+  <g id="galery-section" class="section-container" data-section="galery" data-section-name="Галерея">
+    <path d="M 550 400 L 850 400 L 850 350 L 550 350 Z" fill="#1ABC9C" stroke="#16A085" stroke-width="2.5" opacity="0.85"/>
+    <text x="700" y="340" class="label-main" font-size="16">ГАЛЕРЕЯ</text>
+  </g>
+
+  <!-- INFO BOX (Bottom) -->
+  <g id="info-box">
+    <rect x="30" y="1180" width="1340" height="140" fill="white" stroke="#ddd" stroke-width="2" rx="8"/>
+    <text x="50" y="1210" class="legend-title">ИНФОРМАЦИЯ О ЗАЛЕ:</text>
+    <text x="50" y="1240" class="info-text">Всего мест: <tspan font-weight="bold" fill="#1a1a1a">1100</tspan> | Партер: <tspan font-weight="bold" fill="#27AE60">420</tspan> | Бельэтаж: <tspan font-weight="bold" fill="#E74C3C">280</tspan></text>
+    <text x="50" y="1270" class="info-text">Балкон: <tspan font-weight="bold" fill="#3498DB">220</tspan> | Галерея: <tspan font-weight="bold" fill="#1ABC9C">180</tspan></text>
+    <text x="50" y="1300" class="info-text" font-size="12" fill="#999">💡 Подсказка: наведите на секцию для выделения</text>
+  </g>
+
+  <text x="-9999" y="-9999" role="doc-subtitle">
+    Интерактивная схема концертного зала с четырьмя секциями: Партер (420 мест), Бельэтаж (280 мест), Балкон (220 мест) и Галерея (180 мест).
+  </text>
+</svg>

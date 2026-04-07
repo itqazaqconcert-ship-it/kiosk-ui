@@ -1,0 +1,2 @@
+# kiosk-ui
+Qazaqconcert kiosk
